@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+       canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3em;
+    display: block;
+       }
+       .wrapper { 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 1em;
+        }
+        body{
+            font-family: 'Roboto', sans-serif;
+            text-align: center;
+        }
+        b{
+            color: red;
+        }
+    
+        </style>
+
+<body>
+    <script id="vertex-shader" type="x-shader/x-vertex">
+        attribute vec4 vPosition;
+        uniform float theta;
+        
+        void main() {
+            gl_Position.x = cos(theta) * vPosition.x - sin(theta) * vPosition.y;
+            gl_Position.y = sin(theta) * vPosition.x + cos(theta) * vPosition.y;
+            gl_Position.z = 0.0;
+            gl_Position.w = 1.0;
+        }
+        
+    </script>
+    <script id="fragment-shader" type="x-shader/x-fragment">
+        precision mediump float;
+        uniform vec4 u_color;
+        void main() {
+            gl_FragColor = u_color;
+        }
+    </script>
+    <div> 
+        <h1>WEBGL UYGULAMASI</h1>
+        <canvas id="gl-canvas" width="800" height="650" style="border: solid;"></canvas>
+    </div>
+    <div class="wrapper"> 
+        <input type="button" id="mixBut" value="PARTY!!!" style="height:50px;" />
+    </div>
+    <div>
+        <p> 
+            this program allows you to control the object <b>YA</b> using your <b>Keyboard</b>!!!
+            <br>
+            You can Turn the object to the <b>RIGHT</b> using the <b>"D"</b> key , and You can turn it to the <b>LEFT</b> using your <b>"A"</b> key.<br>
+             You can also change the <b>COLORS</b> using the <b>"R"</b> Key . <br>
+            And for Fun You can click on the <b>PARTY!!!</b> button and to stop the animation you can re-click the button !! 
+        </p>
+    </div>
+
+    <script src="./common/initShaders.js"></script>
+    <script src="./common/MVnew.js"></script>
+    <script src="./common/webgl-utils.js"></script>
+    <script  src="scripts.js"></script>
+</body>
+
+</html>
