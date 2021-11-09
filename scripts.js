@@ -51,7 +51,7 @@ window.onload = function init() {
         ]);
 
     var canvas = document.getElementById("gl-canvas");
-    gl = canvas.getContext( "experimental-webgl" );
+    gl = canvas.getContext( "webgl" );
     if (!gl) { alert("WebGL isn’t available"); }
 
 
