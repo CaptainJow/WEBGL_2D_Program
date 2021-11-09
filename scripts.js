@@ -133,7 +133,6 @@ function color_party() {
     console.log("Stopped");
     mixBut.removeEventListener("click", Stop);
     mixBut.addEventListener("click", color_party);
-    mixBut.value = "Start";
     window.location.reload();
 }
 
