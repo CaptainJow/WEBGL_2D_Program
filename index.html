@@ -6,6 +6,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
      <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <head>
+        <title>WEBGL UYGULAMASI</title>
+    </head>
     <style>
        canvas {
     padding-left: 0;
@@ -28,17 +31,45 @@
         b{
             color: red;
         }
-    
+         .slider {
+        -webkit-appearance: none;
+        width: 25%;
+        height: 15px;
+        border-radius: 5px;  
+        background: #d3d3d3;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+        }
+
+        .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 25px;
+        height: 25px;
+        border-radius: 50%; 
+        background: red;
+        cursor: pointer;
+        }
+
+        .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        border-radius: 50%;
+        background: red;
+        cursor: pointer;
+        }
         </style>
 
 <body>
     <script id="vertex-shader" type="x-shader/x-vertex">
         attribute vec4 vPosition;
         uniform float theta;
-        
+        uniform float scale;
         void main() {
-            gl_Position.x = cos(theta) * vPosition.x - sin(theta) * vPosition.y;
-            gl_Position.y = sin(theta) * vPosition.x + cos(theta) * vPosition.y;
+            gl_Position.x = (cos(theta) * vPosition.x - sin(theta) * vPosition.y)*scale;
+            gl_Position.y = (sin(theta) * vPosition.x + cos(theta) * vPosition.y)*scale;
             gl_Position.z = 0.0;
             gl_Position.w = 1.0;
         }
@@ -52,7 +83,12 @@
         }
     </script>
     <div> 
-        <h1>WEBGL UYGULAMASI</h1>
+      
+    
+        <div class="slidecontainer">
+         <p>0 <input type="range" min="1" max="100" value="50" oninput="scaling(this.value)" class="slider" id="myRange"> 100</p></div>
+        
+        
         <canvas id="gl-canvas" width="800" height="650" style="border: solid;"></canvas>
     </div>
     <div class="wrapper"> 
@@ -64,12 +100,13 @@
             <br>
             You can Turn the object to the <b>RIGHT</b> using the <b>"D"</b> key , and You can turn it to the <b>LEFT</b> using your <b>"A"</b> key.<br>
              You can also change the <b>COLORS</b> using the <b>"R"</b> Key . <br>
+             You can also control the size of the object(scale) using the <b>SLIDER</b> on top of the object .<br>
             And for Fun You can click on the <b>PARTY!!!</b> button and to stop the animation you can re-click the button !! 
         </p>
     </div>
 
-    <script src="./common/initShaders.js"></script>
-    <script  src="scripts.js"></script>
+    <script src="../common/initShaders.js"></script>
+    <script  src="19290189.js"></script>
 </body>
 
 </html>
