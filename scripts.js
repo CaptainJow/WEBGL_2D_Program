@@ -1,13 +1,13 @@
 var gl, program;
 var color = [0.5, 0.1, 1.0, 1];
 var theta = 0.0;
-var thetaLoc;
-
+var thetaLoc , scaleLoc;
+var scaleFactor = 1 ;
+var slider_val_start = document.getElementById("myRange").value = "50";
 
 window.onload = function init() {
-
     var triangle = new Float32Array(
-        [    0.3,-0.5 ,
+        [    0.3,-0.5 ,  //J vecs
             0.5,-0.5 , 
             0.5 ,0.5  ,
             0.3 , -0.5 ,
@@ -57,11 +57,10 @@ window.onload = function init() {
                -0.7 , 0.5 ,
                 -0.2 , 0.3 
         ]);
-
     var canvas = document.getElementById("gl-canvas");
     gl = canvas.getContext( "webgl" );
     if (!gl) { alert("WebGL isn’t available"); }
-
+    
 
     gl.viewport(0, 0, canvas.width, canvas.height); 
     gl.clearColor(0.0, 0.0, 0.0, 0.30);
@@ -71,36 +70,36 @@ window.onload = function init() {
 
     var colorLocation = gl.getUniformLocation(program, "u_color");
     gl.uniform4fv(colorLocation, color);
-
+  
     var vbuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vbuffer);
     gl.bufferData( gl.ARRAY_BUFFER, triangle, gl.STATIC_DRAW );
     
-
+    
 
     var vPosition = gl.getAttribLocation(program, "vPosition"); 
     gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0); 
     gl.enableVertexAttribArray(vPosition);
 
     thetaLoc = gl.getUniformLocation( program, "theta" );
-    
+    scale_loc = gl.getUniformLocation(program, "scale");
     window.addEventListener("keydown", checkKeyPressed); 
     
     requestAnimationFrame( render );
 }
 
-function render(time_ms) {
+function render() {
     
     gl.clear(gl.COLOR_BUFFER_BIT);
 
     gl.uniform1f( thetaLoc, theta );
     var colorLocation = gl.getUniformLocation(program, "u_color");
     gl.uniform4fv(colorLocation, color);
-    
+    gl.uniform1f(scale_loc, scaleFactor);
     gl.drawArrays(gl.TRIANGLES, 0, 42);
    
 
-    requestAnimationFrame( render  );
+    requestAnimationFrame( render );
 }
 
 
@@ -108,6 +107,7 @@ function checkKeyPressed(e) {
 
     if (e.keyCode == "82") {
         color = [Math.random(), Math.random(), Math.random(), 1];
+
     }
     if(e.keyCode =="68"){
         theta -= 0.05;
@@ -115,16 +115,15 @@ function checkKeyPressed(e) {
     if(e.keyCode =="65"){
         theta += 0.05;
     }
- 
-
-
+    
 }
-
+function scaling(val) {
+    scaleFactor = val /100 +0.5 ;
+}
 var mixBut = document.getElementById("mixBut");
-var TIMER  ;
-
 
 mixBut.addEventListener("click", color_party); 
+//COLOR 
 function color_party() {
    for( let i = 1 ; i <2000  ; i++){
           task(i) ;  
@@ -136,7 +135,7 @@ function color_party() {
 
   } 
   
-  
+  //the stop function
   function Stop(){
     console.log("Stopped");
     mixBut.removeEventListener("click", Stop);
@@ -144,12 +143,12 @@ function color_party() {
     window.location.reload();
 }
 
-
+//this task function generates random colors and moves the object
 function task(i){
-   TIMER = setTimeout(function(){
+   setTimeout(function(){
         color = [Math.random(), Math.random(), Math.random(), 1];
         theta += 0.15*i;
         theta -= 0.1*i;
      },150 * i)
  }
- 
+
